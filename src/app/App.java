@@ -4,17 +4,20 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import avlTree.AVLTree;
+import btree.BTree;
 import redBlackTree.RedBlackTree;
 
 public class App<T> {
 	private RedBlackTree<String> rbTree;
 	private AVLTree<String> avlTree;
+	private BTree<String> bTree;
 	private Scanner sc;
-	
+
 	public void run(){
 		sc = new Scanner(System.in);
 		setRbTree(new RedBlackTree<String>());
 		setAvlTree(new AVLTree<String>());
+		setBTree(new BTree<String>());
 		while(sc.hasNextLine()){
 			try{
 				InterpretCommand(getNextCommand());
@@ -27,7 +30,6 @@ public class App<T> {
 	public RedBlackTree<String> getRbTree() {
 		return rbTree;
 	}
-
 	public void setRbTree(RedBlackTree<String> rbTree) {
 		this.rbTree = rbTree;
 	}
@@ -36,6 +38,12 @@ public class App<T> {
 	}
 	public void setAvlTree(AVLTree<String> avlTree) {
 		this.avlTree = avlTree;
+	}
+	public BTree<String> getBTree() {
+		return bTree;
+	}
+	public void setBTree(BTree<String> bTree) {
+		this.bTree = bTree;
 	}
 	//methods
 
@@ -75,11 +83,13 @@ public class App<T> {
 			printArrayList(getAvlTree().toArrayList(command[1]));
 			break;
 		case "BT":
+			
+			//printArrayList(getBTree().toArrayList(command[1]));
 			break;
 		case "RB":	
 			printArrayList(getRbTree().toArrayList(command[1]));
 			break;
-		
+
 		default:
 			UnexpectedToken();
 		}
@@ -87,33 +97,33 @@ public class App<T> {
 
 	private void printArrayList(ArrayList<String> arrayList) {
 		if(arrayList == null){
-			System.err.println("Árvore Vazia");
+			System.err.println("Ã�rvore Vazia");
 			return;
 		}
 		for(String key : arrayList){
 			System.out.println(key);
 		}
-		
+
 	}
 	private void help() {
 		String msg = "Insertion: <Tree> I <data>\n"+
-					 "Deletion:  <Tree> R <data>\n"+
-					 "Copy:      COPY <Type> <Tree> <Tree>\n"+
-					 "        PS: Can only be made from AVL or RB to the others\n"+
-					 "Creation:  <Tree> NEW\n"+
-					 "        PS: If the tree is a BTree: <Tree> NEW <number>\n"+
-					 "Print:     PRINT <Type> <Tree>\n\n"+
-					 "<Tree>: VL(for AVL); BT(for BTree); RB(for RedBlackTree)\n"+
-					 "<data>: an alphanumeric data\n"+
-					 "<Type>: IN(for InOrder); PRE(for PreOrder); POS(for PostOrder)\n"+
-					 "<number>: a natural number greater than 2\n\n";
-					 
+				"Deletion:  <Tree> R <data>\n"+
+				"Copy:      COPY <Type> <Tree> <Tree>\n"+
+				"        PS: Can only be made from AVL or RB to the others\n"+
+				"Creation:  <Tree> NEW\n"+
+				"        PS: If the tree is a BTree: <Tree> NEW <number>\n"+
+				"Print:     PRINT <Type> <Tree>\n\n"+
+				"<Tree>: VL(for AVL); BT(for BTree); RB(for RedBlackTree)\n"+
+				"<data>: an alphanumeric data\n"+
+				"<Type>: IN(for InOrder); PRE(for PreOrder); POS(for PostOrder)\n"+
+				"<number>: a natural number greater than 2\n\n";
+
 		System.out.print(msg);
 	}
 
 	private void UnexpectedToken() {
 		System.err.println("unexpected token - Type HELP to see the available commands");
-		
+
 	}
 
 	private void CopyOperation(String[] command) throws Exception{
@@ -127,7 +137,7 @@ public class App<T> {
 		default:
 			UnexpectedToken();
 		}
-		
+
 	}
 
 	private void RBOperation(String[] command) throws Exception{
@@ -144,32 +154,38 @@ public class App<T> {
 			try{
 				getRbTree().remove(getRbTree().search(command[2]));
 			}catch(NullPointerException e){
-				System.err.println("Valor não encontrado");
+				System.err.println("Valor nÃ£o encontrado");
 			}
-			
+
 			System.out.println("deletion"+command[2]);
 			break;
 		default:
 			UnexpectedToken();
 		}
-		
 	}
 
 	private void BTOperation(String[] command) throws Exception{
 		switch(command[1]){
 		case "NEW":
-			System.out.println("new tree"+command[2]);
+			System.out.println("new tree");
+			setBTree(new BTree<String>());
 			break;
 		case "I":
+			getBTree().insert(command[2]);
 			System.out.println("insertion"+command[2]);
 			break;
 		case "R":
+			try{
+				getBTree().remove(command[2]);
+			}catch(NullPointerException e){
+				System.err.println("Valor nÃ£o encontrado");
+			}
+
 			System.out.println("deletion"+command[2]);
 			break;
 		default:
 			UnexpectedToken();
 		}
-		
 	}
 
 	private void AVLOperation(String[] command) throws Exception{
@@ -187,7 +203,7 @@ public class App<T> {
 				System.out.println("deletion"+command[2]);
 				this.getAvlTree().remove(command[2]);
 			}catch(NullPointerException e){
-				System.err.println("Valor não encontrado");
+				System.err.println("Valor nÃ£o encontrado");
 			}
 			break;
 		default:
@@ -207,5 +223,5 @@ public class App<T> {
 		//System.out.println(cmd[0]+" "+cmd[1]+" "+cmd[2]);
 		return cmd;
 	}
-	
+
 }
