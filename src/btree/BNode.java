@@ -1,19 +1,19 @@
 package btree;
 import java.util.*;
-@SuppressWarnings("unused")
-public class BNode<T extends Comparable<T>> {
 
-		private T[] keys = null;
-		private int keysSize = 0;
-		private BNode<T>[] children = null;
-		private int childrenSize = 0;
-		protected Comparator<BNode<T>> comparator = new Comparator<BNode<T>>() {
+public class BNode<T extends Comparable<T>> {//extende um tipo generico
+
+		private T[] keys = null;//vetor de chaves do no
+		private int keysSize = 0;//tamanho do vetor de chaves
+		private BNode<T>[] children = null;//vetor de filhos
+		private int childrenSize = 0;//tamanho do vetor de filhos
+		protected Comparator<BNode<T>> comparator = new Comparator<BNode<T>>() {//comparador para tipos genericos
 			@Override
-			public int compare(BNode<T> arg0, BNode<T> arg1) {
+			public int compare(BNode<T> arg0, BNode<T> arg1) {//metodo sobreescrito de comparação
 				return arg0.getKey(0).compareTo(arg1.getKey(0));
 			}
 		};
-
+		//getters e setters
 		protected T[] getKeys() {
 			return keys;
 		}
@@ -61,11 +61,11 @@ public class BNode<T extends Comparable<T>> {
 		protected void setParent(BNode<T> parent) {
 			this.parent = parent;
 		}
+		//fim dos getters e setters padrao
+		protected BNode<T> parent = null;//referencia pro no pai
 
-		protected BNode<T> parent = null;
-
-		@SuppressWarnings("unchecked")
-		protected BNode(BNode<T> parent, int maxKeySize, int maxChildrenSize) {
+		@SuppressWarnings("unchecked")//suprime warnings por causa de cast para tipo generico
+		protected BNode(BNode<T> parent, int maxKeySize, int maxChildrenSize) {//construtor do bnode
 			this.parent = parent;
 			this.keys = (T[]) new Comparable[maxKeySize + 1];
 			this.keysSize = 0;
@@ -73,24 +73,24 @@ public class BNode<T extends Comparable<T>> {
 			this.childrenSize = 0;
 		}
 
-		protected T getKey(int index) {
+		protected T getKey(int index) {//retorna a key em um index no vetor de chave
 			return keys[index];
 		}
 
-		protected int indexOf(T value) {
+		protected int indexOf(T value) {//retorna o index de tal key se ela estiver no no
 			for (int i = 0; i < keysSize; i++) {
 				if (keys[i].equals(value)) return i;
 			}
 			return -1;
 		}
 
-		protected void addKey(T value) {
+		protected void addKey(T value) {//adiciona uma key no vetor de keys do no
 			keys[keysSize++] = value;
 			Arrays.sort(keys, 0, keysSize);
 		}
 
 		
-		protected T removeKey(T value) {
+		protected T removeKey(T value) {//remove uma key do vetor de keys do no
 			T removed = null;
 			boolean found = false;
 			if (keysSize == 0) return null;
@@ -99,7 +99,7 @@ public class BNode<T extends Comparable<T>> {
 					found = true;
 					removed = keys[i];
 				} else if (found) {
-					// shift the rest of the keys down
+					// move o resto delas pra baixo
 					keys[i - 1] = keys[i];
 				}
 			}
@@ -110,12 +110,11 @@ public class BNode<T extends Comparable<T>> {
 			return removed;
 		}
 
-		protected T removeKey(int index) {
+		protected T removeKey(int index) {//remove uma key de acordo com o index dela
 			if (index >= keysSize)
 				return null;
 			T value = keys[index];
 			for (int i = index + 1; i < keysSize; i++) {
-				// shift the rest of the keys down
 				keys[i - 1] = keys[i];
 			}
 			keysSize--;
@@ -123,17 +122,21 @@ public class BNode<T extends Comparable<T>> {
 			return value;
 		}
 
-		protected int numberOfKeys() {
+		protected int numberOfKeys() {//retorna o numero de chaves do no
 			return keysSize;
 		}
-
-		protected BNode<T> getChild(int index) {
+		
+		int numberOfChildren() {//retorna o numero de filhos
+			return childrenSize;
+		}
+		
+		protected BNode<T> getChild(int index) {//retorna o filho naquele index
 			if (index >= childrenSize)
 				return null;
 			return children[index];
 		}
 
-		protected int indexOf(BNode<T> child) {
+		protected int indexOf(BNode<T> child) {//o index daquele filho
 			for (int i = 0; i < childrenSize; i++) {
 				if (children[i].equals(child))
 					return i;
@@ -148,7 +151,7 @@ public class BNode<T extends Comparable<T>> {
 			return true;
 		}
 
-		protected boolean removeChild(BNode<T> child) {
+		protected boolean removeChild(BNode<T> child) {//remove o filho solicitado
 			boolean found = false;
 			if (childrenSize == 0)
 				return found;
@@ -156,7 +159,7 @@ public class BNode<T extends Comparable<T>> {
 				if (children[i].equals(child)) {
 					found = true;
 				} else if (found) {
-					// shift the rest of the keys down
+					// muda o resto dos filhos uma chave abaixo
 					children[i - 1] = children[i];
 				}
 			}
@@ -167,55 +170,16 @@ public class BNode<T extends Comparable<T>> {
 			return found;
 		}
 
-		protected BNode<T> removeChild(int index) {
+		protected BNode<T> removeChild(int index) {//remove o filho em tal index
 			if (index >= childrenSize)
 				return null;
 			BNode<T> value = children[index];
 			children[index] = null;
 			for (int i = index + 1; i < childrenSize; i++) {
-				// shift the rest of the keys down
 				children[i - 1] = children[i];
 			}
 			childrenSize--;
 			children[childrenSize] = null;
 			return value;
-		}
-
-		int numberOfChildren() {
-			return childrenSize;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String toString() {
-			StringBuilder builder = new StringBuilder();
-
-			builder.append("keys=[");
-			for (int i = 0; i < numberOfKeys(); i++) {
-				T value = getKey(i);
-				builder.append(value);
-				if (i < numberOfKeys() - 1)
-					builder.append(", ");
-			}
-			builder.append("]\n");
-
-			if (parent != null) {
-				builder.append("parent=[");
-				for (int i = 0; i < parent.numberOfKeys(); i++) {
-					T value = parent.getKey(i);
-					builder.append(value);
-					if (i < parent.numberOfKeys() - 1)
-						builder.append(", ");
-				}
-				builder.append("]\n");
-			}
-
-			if (children != null) {
-				builder.append("keySize=").append(numberOfKeys()).append(" children=").append(numberOfChildren()).append("\n");
-			}
-
-			return builder.toString();
 		}
 	}
