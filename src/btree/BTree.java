@@ -9,18 +9,6 @@ import java.util.Deque;
 import avlTree.AVLNode;
 import btree.BNode;
 
-/**
- * B-tree is a tree data structure that keeps data sorted and allows searches,
- * sequential access, insertions, and deletions in logarithmic time. The B-tree
- * is a generalization of a binary search tree in that a BNode can have more than
- * two children. Unlike self-balancing binary search trees, the B-tree is
- * optimized for systems that read and write large blocks of data. It is
- * commonly used in databases and file-systems.
- * 
- * http://en.wikipedia.org/wiki/B-tree
- * 
- * @author Justin Wetherell <phishman3579@gmail.com>
- */
 @SuppressWarnings("unchecked")//suprime warnings de casting
 public class BTree<T extends Comparable<T>>{
 
