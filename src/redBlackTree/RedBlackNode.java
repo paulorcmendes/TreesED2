@@ -1,27 +1,26 @@
-//https://github.com/Arsenalist/Red-Black-Tree-Java-Implementation
 package redBlackTree;
-/**
- */ // class RedBlackNode
+
+// class RedBlackNode
 class RedBlackNode<T extends Comparable<T>> {
 
-    /** Possible color for this node */
+    //definição da cor BLACK
     public static final int BLACK = 0;
-    /** Possible color for this node */
+  //definição da cor RED
     public static final int RED = 1;
-	// the key of each node
+	//chave do node
 	public T key;
 
-    /** Parent of node */
+    //pai do nó
     RedBlackNode<T> parent;
-    /** Left child */
+    //filho esquerdo
     RedBlackNode<T> left;
-    /** Right child */
+    //filho direito
     RedBlackNode<T> right;
-    // the number of elements to the left of each node
+    // número de elementos da esquerda de cada nó
     public int numLeft = 0;
-    // the number of elements to the right of each node
+    // número de elementos da direita de cada nó
     public int numRight = 0;
-    // the color of a node
+    // cor de cada nó
     public int color;
 
     RedBlackNode(){
@@ -33,10 +32,10 @@ class RedBlackNode<T extends Comparable<T>> {
         right = null;
     }
 
-	// Constructor which sets key to the argument.
+	//construtor com a Chave dada
 	RedBlackNode(T key){
         this();
         this.key = key;
 	}
-}// end class RedBlackNode
+}
 
