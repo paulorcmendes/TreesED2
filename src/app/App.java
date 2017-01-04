@@ -83,8 +83,7 @@ public class App<T> {
 			printArrayList(getAvlTree().toArrayList(command[1]));
 			break;
 		case "BT":
-			
-			//printArrayList(getBTree().toArrayList(command[1]));
+			printArrayList(getBTree().toArrayList(command[1]));
 			break;
 		case "RB":	
 			printArrayList(getRbTree().toArrayList(command[1]));
@@ -129,10 +128,39 @@ public class App<T> {
 	private void CopyOperation(String[] command) throws Exception{
 		switch(command[2]){
 		case "AVL":
-			System.out.println("cp avl");
+			if(command[3].equals("RB")){
+				setRbTree(new RedBlackTree<String>());
+				for (String string : getAvlTree().toArrayList(command[1])) {
+					getRbTree().insert(string);
+				}
+				System.out.println("cp avl in rb");
+			}else if(command[3].equals("BT")){
+				setBTree(new BTree<String>());
+				for (String string : getAvlTree().toArrayList(command[1])) {
+					getBTree().insert(string);
+				}
+				System.out.println("cp avl in bt");
+			}else{
+				System.err.println("Select a valid type of tree to paste!");
+			}
 			break;
 		case "RB":
-			System.out.println("cp rb");
+			if(command[3].equals("AVL")){
+				setAvlTree(new AVLTree<String>());
+				for (String string : getRbTree().toArrayList(command[1])) {
+					getAvlTree().insert(string);
+				}
+				System.out.println("cp rb in avl");
+			}else if(command[3].equals("BT")){
+				setBTree(new BTree<String>());
+				for (String string : getRbTree().toArrayList(command[1])) {
+					getBTree().insert(string);
+				}
+				System.out.println("cp rb in bt");
+			}else{
+				System.err.println("Select a valid type of tree to paste!");
+			}
+			
 			break;
 		default:
 			UnexpectedToken();
@@ -167,16 +195,20 @@ public class App<T> {
 	private void BTOperation(String[] command) throws Exception{
 		switch(command[1]){
 		case "NEW":
-			System.out.println("new tree");
-			setBTree(new BTree<String>());
+			if(command[2] != null){
+				setBTree(new BTree<String>(Integer.parseInt(command[2])));
+				System.out.println("new tree");
+			}else{
+				System.err.println("Please type a valid command! Type HELP to see the available commands");
+			}
 			break;
 		case "I":
-			getBTree().insert(command[2]);
 			System.out.println("insertion"+command[2]);
+			getBTree().insert(command[2]);
 			break;
 		case "R":
 			try{
-				getBTree().remove(command[2]);
+				getBTree().remove(command[2]).length();
 			}catch(NullPointerException e){
 				System.err.println("Valor nÃ£o encontrado");
 			}

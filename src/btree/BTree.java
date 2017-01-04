@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Deque;
 
+import avlTree.AVLNode;
 import btree.BNode;
 
 /**
@@ -105,7 +106,38 @@ public class BTree<T extends Comparable<T>>{
 
 		return true;
 	}
-
+	private void visit(BNode<T> node, String type, ArrayList<T> list){
+		if(node != null){
+			if(type.equals("PRE")){
+				/*for (i=0; i < node.getKeysSize(); i++) {
+					list.add(node.getKey(i));
+					visit(node.getChild(i), type, list);
+				}
+				visit(node.getChild(i), type, list);*/
+				System.err.println("You can only print B trees in order!");
+			}else if(type.equals("POS")){
+				/*visit(node.getLeft(), type, list);				
+				visit(node.getRight(), type, list);
+				list.add(node.getKey());*/
+				System.err.println("You can only print B trees in order!");
+			}else{
+				visit(node.getChild(0), type, list);
+				for (int i = 0; i < node.getKeysSize(); i++) {
+					list.add(node.getKey(i));
+					visit(node.getChild(i+1), type, list);
+				}					
+			}
+		}
+	}
+	public ArrayList<T> toArrayList(String type){
+		if(root == null) return null;
+		
+		ArrayList<T> ret = new ArrayList<T>();
+		
+		visit(root, type, ret);
+		
+		return ret;
+	}
 	/**
 	 * The BNode's key size is greater than maxKeySize, split down the middle.
 	 * 
