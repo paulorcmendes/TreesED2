@@ -50,23 +50,23 @@ public class App<T> {
 	private void InterpretCommand(String[] command) throws Exception{
 		switch(command[0]){
 		case "VL":
-			System.out.println("AVL");
+			//System.out.println("AVL");
 			AVLOperation(command);
 			break;
 		case "BT":			
-			System.out.println("BTree");
+			//System.out.println("BTree");
 			BTOperation(command);
 			break;
 		case "RB":
-			System.out.println("RedBlack");
+			//System.out.println("RedBlack");
 			RBOperation(command);
 			break;
 		case "PRINT":
-			System.out.println("Print");
+			//System.out.println("Print");
 			PrintOperation(command);
 			break;
 		case "COPY":
-			System.out.println("COPY");
+			//System.out.println("COPY");
 			CopyOperation(command);
 			break;
 		case "HELP":
@@ -116,7 +116,7 @@ public class App<T> {
 				"<Tree>: VL(for AVL); BT(for BTree); RB(for RedBlackTree)\n"+
 				"<data>: an alphanumeric data\n"+
 				"<Type>: IN(for InOrder); PRE(for PreOrder); POS(for PostOrder)\n"+
-				"<number>: a natural number greater than 2\n\n";
+				"<number>: a natural number greater than 0\n\n";
 
 		System.out.print(msg);
 	}
@@ -172,21 +172,21 @@ public class App<T> {
 	private void RBOperation(String[] command) throws Exception{
 		switch(command[1]){
 		case "NEW":
-			System.out.println("new tree");
+			System.out.println("new tree ");
 			setRbTree(new RedBlackTree<String>());
 			break;
 		case "I":
 			getRbTree().insert(command[2]);
-			System.out.println("insertion"+command[2]);
+			System.out.println("insertion "+command[2]);
 			break;
 		case "R":
 			try{
 				getRbTree().remove(getRbTree().search(command[2]));
 			}catch(NullPointerException e){
-				System.err.println("Valor nÃ£o encontrado");
+				System.err.println("Valor não encontrado");
 			}
 
-			System.out.println("deletion"+command[2]);
+			System.out.println("deletion "+command[2]);
 			break;
 		default:
 			UnexpectedToken();
@@ -204,17 +204,17 @@ public class App<T> {
 			}
 			break;
 		case "I":
-			System.out.println("insertion"+command[2]);
+			System.out.println("insertion "+command[2]);
 			getBTree().insert(command[2]);
 			break;
 		case "R":
 			try{
 				getBTree().remove(command[2]).length();
 			}catch(NullPointerException e){
-				System.err.println("Valor nÃ£o encontrado");
+				System.err.println("Valor não encontrado");
 			}
 
-			System.out.println("deletion"+command[2]);
+			System.out.println("deletion "+command[2]);
 			break;
 		default:
 			UnexpectedToken();
@@ -228,15 +228,15 @@ public class App<T> {
 			this.setAvlTree(new AVLTree<String>());
 			break;
 		case "I":
-			System.out.println("insertion"+command[2]);
+			System.out.println("insertion "+command[2]);
 			this.getAvlTree().insert(command[2]);
 			break;
 		case "R":
 			try{
-				System.out.println("deletion"+command[2]);
+				System.out.println("deletion "+command[2]);
 				this.getAvlTree().remove(command[2]);
 			}catch(NullPointerException e){
-				System.err.println("Valor nÃ£o encontrado");
+				System.err.println("Valor não encontrado");
 			}
 			break;
 		default:
