@@ -1,5 +1,5 @@
 package app;
-
+//essa classe instanciará o terminal.
 public class Main {
 	private static App terminal;
 	

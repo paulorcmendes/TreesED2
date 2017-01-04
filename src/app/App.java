@@ -1,5 +1,5 @@
 package app;
-
+//essa é a classe terminal
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,11 +8,11 @@ import btree.BTree;
 import redBlackTree.RedBlackTree;
 
 public class App<T> {
-	private RedBlackTree<String> rbTree;
-	private AVLTree<String> avlTree;
-	private BTree<String> bTree;
+	private RedBlackTree<String> rbTree; //árvore rubro negra
+	private AVLTree<String> avlTree; //árvore avl
+	private BTree<String> bTree; //árvore B
 	private Scanner sc;
-
+	//inicialização das árvores e controle dos próximos comandos
 	public void run(){
 		sc = new Scanner(System.in);
 		setRbTree(new RedBlackTree<String>());
@@ -46,7 +46,7 @@ public class App<T> {
 		this.bTree = bTree;
 	}
 	//methods
-
+	//verifica qual é o tipo de comanda e chama o método correspondente
 	private void InterpretCommand(String[] command) throws Exception{
 		switch(command[0]){
 		case "VL":
@@ -76,7 +76,7 @@ public class App<T> {
 			UnexpectedToken();
 		}
 	}
-
+	//caso seja print, verifica qual árvore e qual tipo de ordem se deseja imprimir
 	private void PrintOperation(String[] command) throws Exception{
 		switch(command[2]){
 		case "AVL"/*"VL"*/:
@@ -93,10 +93,10 @@ public class App<T> {
 			UnexpectedToken();
 		}
 	}
-
+	//printa o conteúdo de um arraylist
 	private void printArrayList(ArrayList<String> arrayList) {
 		if(arrayList == null){
-			System.err.println("Ã�rvore Vazia");
+			System.err.println("Árvore Vazia");
 			return;
 		}
 		for(String key : arrayList){
@@ -104,6 +104,7 @@ public class App<T> {
 		}
 
 	}
+	//comando help: para ajudar o usuário foi criado esse minimanual.
 	private void help() {
 		String msg = "Insertion: <Tree> I <data>\n"+
 				"Deletion:  <Tree> R <data>\n"+
@@ -119,12 +120,12 @@ public class App<T> {
 
 		System.out.print(msg);
 	}
-
+	//quando um comando inexistente for chamado, o usuário é alertado
 	private void UnexpectedToken() {
-		System.err.println("unexpected token - Type HELP to see the available commands");
+		System.err.println("Comando Inválido - Digite HELP para ver os comandos disponíveis");
 
 	}
-
+	//verifica qual árvore será copiada e em seguida para qual árvore será copiada. Chama o método que retorna um array de acordo com o tipo de ordem desejada e realiza a cópia para a outra árvore.
 	private void CopyOperation(String[] command) throws Exception{
 		switch(command[2]){
 		case "AVL":
@@ -133,13 +134,13 @@ public class App<T> {
 				for (String string : getAvlTree().toArrayList(command[1])) {
 					getRbTree().insert(string);
 				}
-				System.out.println("cp avl in rb");
+				System.out.println("cp avl -> rb");
 			}else if(command[3].equals("BT")){
 				setBTree(new BTree<String>());
 				for (String string : getAvlTree().toArrayList(command[1])) {
 					getBTree().insert(string);
 				}
-				System.out.println("cp avl in bt");
+				System.out.println("cp avl -> bt");
 			}else{
 				System.err.println("Select a valid type of tree to paste!");
 			}
@@ -150,13 +151,13 @@ public class App<T> {
 				for (String string : getRbTree().toArrayList(command[1])) {
 					getAvlTree().insert(string);
 				}
-				System.out.println("cp rb in avl");
+				System.out.println("cp rb -> avl");
 			}else if(command[3].equals("BT")){
 				setBTree(new BTree<String>());
 				for (String string : getRbTree().toArrayList(command[1])) {
 					getBTree().insert(string);
 				}
-				System.out.println("cp rb in bt");
+				System.out.println("cp rb -> bt");
 			}else{
 				System.err.println("Select a valid type of tree to paste!");
 			}
@@ -167,7 +168,7 @@ public class App<T> {
 		}
 
 	}
-
+	//verifica qual operação será realizada na árvore rubro negra
 	private void RBOperation(String[] command) throws Exception{
 		switch(command[1]){
 		case "NEW":
@@ -191,7 +192,7 @@ public class App<T> {
 			UnexpectedToken();
 		}
 	}
-
+	//verifica qual operação será realizada na árvore B
 	private void BTOperation(String[] command) throws Exception{
 		switch(command[1]){
 		case "NEW":
@@ -219,7 +220,7 @@ public class App<T> {
 			UnexpectedToken();
 		}
 	}
-
+	//verifica qual operação será realizada na árvore AVL
 	private void AVLOperation(String[] command) throws Exception{
 		switch(command[1]){
 		case "NEW":
@@ -242,7 +243,7 @@ public class App<T> {
 			UnexpectedToken();
 		}		
 	}
-
+	//essa função quebra o comando em no máximo 4 partes, onde cada uma conterá uma palavra
 	private String[] getNextCommand(){
 		int index = 0;
 		String[] msg = sc.nextLine().split(" ");

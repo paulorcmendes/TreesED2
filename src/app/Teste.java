@@ -1,7 +1,7 @@
 package app;
 
 import avlTree.AVLTree;
-
+//essa classe serve apenas para testes
 public class Teste {
 	private static AVLTree<Integer> avlTree;
 	public static void main(String[] args) {
