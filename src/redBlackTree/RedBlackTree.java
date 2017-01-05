@@ -498,41 +498,8 @@ public class RedBlackTree<T extends Comparable<T>> {
 		return null;
 
 
-	}// end search(int key)
-
-	//número de elementos maiores que um chave na árvore
-	public int numGreater(T key){
-		return findNumGreater(root,key);
 	}
-
-
-	//número de elementos menores que um chave na árvore
-	public int numSmaller(T key){
-		return findNumSmaller(root,key);
-	}
-
-
-	//número de nós maiores que uma chave na árvore com raiz em node
-	public int findNumGreater(RedBlackNode<T> node, T key){
-		if (isNil(node))
-			return 0;
-		else if (key.compareTo(node.key) < 0)
-            return 1+ node.numRight + findNumGreater(node.left,key);
-		else
-			return findNumGreater(node.right,key);
-	}
-
-    //retorna o número de nós menores que uma chave na árvore com raiz em node
-	public int findNumSmaller(RedBlackNode<T> node, T key){
-		if (isNil(node)) return 0;
-
-		else if (key.compareTo(node.key) <= 0)
-			return findNumSmaller(node.left,key);
-		else
-			return 1+ node.numLeft + findNumSmaller(node.right,key);
-
-	}
-
+	
 	//verifica se node é nil
 	private boolean isNil(RedBlackNode<T> node){
 		return node == nil;
